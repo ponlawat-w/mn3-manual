@@ -2,8 +2,6 @@
 
 This step requires a built Docker image of MoodlenNet 3. This can either be locally-built image from [step 1](./1-create-docker-image.md) or use the already-build image name [`ponlawatw/moodlenet:3-20230114`](https://hub.docker.com/repository/docker/ponlawatw/moodlenet/general) from Docker Hub registry.
 
-This step is an alternative of [step 3 Docker compose](./3-docker-compose.md). If this step is chosen, it is not necessary to do the other one.
-
 ---
 
 > ※ These steps might need to be superuser. Use command `$ su` to switch to super user, or start every command with `sudo`.
