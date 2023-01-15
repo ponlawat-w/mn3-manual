@@ -1,0 +1,23 @@
+{
+  "pkgs": {
+    "@moodlenet/core": {
+      "npm_config_registry": "https://registry.npmjs.org/"
+    },
+    "@moodlenet/arangodb": {
+      "connectionCfg": {
+        "url": "http://arangodb:8529"
+      }
+    },
+    "@moodlenet/http-server": {
+      "port": 8080
+    },
+    "@moodlenet/email-service": {
+      "nodemailerTransport": {
+        "jsonTransport": true
+      }
+    },
+    "@moodlenet/authentication-manager": {
+      "rootPassword": "root"
+    }
+  }
+}
