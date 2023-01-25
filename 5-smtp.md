@@ -25,13 +25,54 @@ $ docker exec -it mn3_arangodb arangosh
 4. Update entry by using the following command:
 
 ```console
-> db._update(db._collection('Moodlenet_simple_key_value_store').firstExample('_key', 'mailerCfg::'), { value: { defaultFrom: 'SENDER_ADDRESS', defaultReplyTo: 'SENDER_ADDRESS', transport: { host: 'SMTP_HOST', secure: true, auth: { user: 'SMTP_USER', pass: 'SMTP_PASS' } } } })
+> db._update(db._collection('Moodlenet_simple_key_value_store').firstExample('_key', 'mailerCfg::'), { value: { defaultFrom: 'SENDER_ADDRESS', defaultReplyTo: 'SENDER_ADDRESS' } })
 ```
-and replacing the following values in the command:
-- `SENDER_ADDRESS` to be the email address of the sender (e.g. noreply@domain)
-- `SMTP_HOST` to be the SMTP host 
-- `SMTP_USER` to be the SMTP username
-- `SMTP_PASS` to be the SMTP password
+by replacing `SENDER_ADDRESS` in the command to be the sender address (e.g. noreply@domain).
+
+5. Edit configuration json file replace the object `nodemailerTransport` in `@moodlenet/email-service` to be the following and replace the value parameters:
+```json
+{
+  "host": "SMTP_HOST",
+  "secure": true,
+  "auth": {
+    "user": "SMTP_USER",
+    "pass": "SMTP_PASS"
+  }
+}
+```
+Final configuration json file should look like this:
+```json
+{
+  "pkgs": {
+    "@moodlenet/core": {
+      "npm_config_registry": "https://registry.npmjs.org/"
+    },
+    "@moodlenet/arangodb": {
+      "connectionCfg": {
+        "url": "http://arangodb:8529"
+      }
+    },
+    "@moodlenet/http-server": {
+      "port": 8080
+    },
+    "@moodlenet/email-service": {
+      "nodemailerTransport": {
+        "host": "SMTP_HOST",
+        "secure": true,
+        "auth": {
+          "user": "SMTP_USER",
+          "pass": "SMTP_PASS"
+        }
+      }
+    },
+    "@moodlenet/authentication-manager": {
+      "rootPassword": "root"
+    }
+  }
+}
+```
+
+6. Restart the MoodleNet container.
 
 ---
 
