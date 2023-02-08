@@ -12,16 +12,16 @@ This step requires a built Docker image of MoodlenNet 3. This can either be loca
 - **Volume**: files in Docker containers will get removed / reset every time a container is disposed. To keep the data relevant to the deployment to persiste across containers life time, some particular directories in the containers need to be mounted to a Docker volume. [[See more]](https://docs.docker.com/storage/volumes/)
 
 To create a Docker network, use [`docker network create`](https://docs.docker.com/engine/reference/commandline/network_create/) command.
-```console
-$ docker network create -d bridge moodlenet3
+```shell
+docker network create -d bridge moodlenet3
 ```
 - `-d bridge` indicates the network driver type
 - `moodlenet3` is the network name, which could be anything, but it must match when being used in the following commands.
 
 To create a Docker volume, use [`docker volume create`](https://docs.docker.com/engine/reference/commandline/volume_create/) command.
-```console
-$ docker volume create arangodb_data
-$ docker volume create moodlenet3_data
+```shell
+docker volume create arangodb_data
+docker volume create moodlenet3_data
 ```
 - In this deployment, two volumes need to be created for ArangoDB and MoodleNet3 respectively.
 - The volume names are `arangodb_data`, and `moodlenet3_data` which can be changed to anything but they must match when being used in the following commands.
@@ -31,8 +31,8 @@ $ docker volume create moodlenet3_data
 ## Run ArangoDB
 
 To run a container of ArangoDB from official image, use the following [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command:
-```console
-$ docker run -d -e ARANGO_NO_AUTH=1 -v arangodb_data:/var/lib/arangodb3 -p 8529:8529 --restart always --network moodlenet3 --name mn3_arangodb arangodb
+```shell
+docker run -d -e ARANGO_NO_AUTH=1 -v arangodb_data:/var/lib/arangodb3 -p 8529:8529 --restart always --network moodlenet3 --name mn3_arangodb arangodb
 ```
 - `docker run` is the command to run a container from an image.
 - `-d` indicates the container to be *detached*, so it will run in the background. Closing the terminal session won't affect the container.
@@ -45,8 +45,8 @@ $ docker run -d -e ARANGO_NO_AUTH=1 -v arangodb_data:/var/lib/arangodb3 -p 8529:
 - `arangodb` is the image name.
 
 Use the command [`docker logs`](https://docs.docker.com/engine/reference/commandline/logs/) to check the latest logged message from the container, when `mn3_arangodb` is the container name:
-```console
-$ docker logs mn3_arangodb
+```shell
+docker logs mn3_arangodb
 ```
 
 Find the following text in the result message of `docker logs` command. If it exists, then the ArangoDB is now ready.
@@ -89,8 +89,8 @@ Before running a container of MoodleNet3, it is necessary to overwrite the defau
 The reason to create this file is that the default configuration will connect to ArangoDB using `http://localhost:8529`. However, in Docker deployment, ArangoDB is running in another container which will be accounted as a different machine than `localhost`. For this reason, it is necessary to change the config into `http://[ARANGODB_CONTAINER_NAME]:[ARANGODB_CONTAINER_PORT]` which in this case `http://arangodb:8529`.
 
 After the configuration file is created, now it is ready to run a container of MoodleNet3 from either locally-built image or already-built image from Docker Hub registry, use the following [`docker run`](https://docs.docker.com/engine/reference/commandline/run/)  command:
-```console
-$ docker run -d -v PATH_TO_CONFIG_JSON:/root/default.config.json -v moodlenet3_data:/src/.dev-machines -e MOODLENET_CONFIG_FILE=/root/default.config.json -p 8080:8080 --restart always --network moodlenet3 --link mn3_arangodb:arangodb --name mn3_core ponlawatw/moodlenet:3-20230114
+```shell
+docker run -d -v PATH_TO_CONFIG_JSON:/root/default.config.json -v moodlenet3_data:/src/.dev-machines -e MOODLENET_CONFIG_FILE=/root/default.config.json -p 8080:8080 --restart always --network moodlenet3 --link mn3_arangodb:arangodb --name mn3_core ponlawatw/moodlenet:3-20230114
 ```
 - `docker run` is the command to run a container from a Docker image.
 - `-d` indicates to run the container *detachedly*, so it will run in the background and not get affected even working terminal session is closed.
@@ -105,8 +105,8 @@ $ docker run -d -v PATH_TO_CONFIG_JSON:/root/default.config.json -v moodlenet3_d
 - `ponlawatw/moodlenet:3-20230114` is the name of Docker image to be run for this container. This can be different depends on the action from [the first step](./1-create-docker-image.md).
 
 After run, use `docker logs` command to see the logged messages from the container:
-```console
-$ docker logs mn3_core
+```shell
+docker logs mn3_core
 ```
 where `mn3_core` is the container name. If in the result of `docker logs` there is the following text, the MoodleNet should be now ready. Otherwise, it might still be busy initialising, wait for a while and repeat the `docker logs` command until the text is found (which could take up to few minutes):
 ```
@@ -118,8 +118,8 @@ If webpack complier done but not exited with signal `0`, please try again, if it
 However, if there are any other error messages, there might be something wrong during the previous step. Try dispose all the resources using steps from the last section in this page and start again from the beginning.
 
 To test locally if MoodleNet is up, use the command `curl` to check the response from the port 8080.
-```console
-$ curl http://localhost:8080
+```shell
+curl http://localhost:8080
 ```
 Expected the result from `curl` to be some HTML text looking like this:
 ```html
@@ -131,33 +131,33 @@ Expected the result from `curl` to be some HTML text looking like this:
 ## Dispose the deployment
 
 To stop the containers use the command [`docker stop CONTAINER_NAME`](https://docs.docker.com/engine/reference/commandline/stop/) for stopping MoodleNet and/or ArangoDB containers respectively:
-```console
-$ docker stop mn3_core
-$ docker stop mn3_arangodb
+```shell
+docker stop mn3_core
+docker stop mn3_arangodb
 ```
 
 To resume the stopped containers, use the command [`docker start CONTAINER_NAME`](https://docs.docker.com/engine/reference/commandline/start/):
-```console
-$ docker start mn3_core
-$ docker start mn3_arangodb
+```shell
+docker start mn3_core
+docker start mn3_arangodb
 ```
 
 To remove the stopped containers, use the command [`docker rm CONTAINER_NAME`](https://docs.docker.com/engine/reference/commandline/rm/):
-```console
-$ docker rm mn3_core
-$ docker rm mn3_arangodb
+```shell
+docker rm mn3_core
+docker rm mn3_arangodb
 ```
 ※ To restart a removed container, one must use `docker run` command with all the proper options arguments from the previous step.
 
 To remove the volumes, use the command [`docker volume rm VOLUME_NAME`](https://docs.docker.com/engine/reference/commandline/volume_rm/)
-```console
-$ docker volume rm moodlenet3_data
-$ docker volume rm arangodb_data
+```shell
+docker volume rm moodlenet3_data
+docker volume rm arangodb_data
 ```
 
 To remove the network, use the command [`docker network rm NETWORK_NAME`](https://docs.docker.com/engine/reference/commandline/network_rm/)
-```console
-$ docker network rm moodlenet3
+```shell
+docker network rm moodlenet3
 ```
 
 ---

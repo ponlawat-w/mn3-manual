@@ -7,8 +7,8 @@ This is to setup secured HTTP by using certificate from Let's Encrypt and Certbo
 ---
 
 Use the following command to obtain a new certificate for domain:
-```console
-$ certbot --nginx --nginx-ctl /usr/sbin/nginx -d DOMAIN_NAME
+```shell
+certbot --nginx --nginx-ctl /usr/sbin/nginx -d DOMAIN_NAME
 ```
 By replacing `DOMAIN_NAME` with the domain name to get SSL certificate, without prefixing `http://` nor `https://`.
 
@@ -16,8 +16,8 @@ By replacing `DOMAIN_NAME` with the domain name to get SSL certificate, without 
 
 To renew certificate, use crontab for the following command:
 
-```console
-$ certbot renew
+```shell
+certbot renew
 ```
 
 ---

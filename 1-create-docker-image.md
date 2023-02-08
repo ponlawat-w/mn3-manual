@@ -21,12 +21,12 @@ CMD [ "npm", "run", "dev-start-backend", "default-dev" ]
 ```
 
 3. Run the following commmand, replacing `IMAGE_NAME` with the name of the image to be created:
-```console
-$ docker build -t IMAGE_NAME .
+```shell
+docker build -t IMAGE_NAME .
 ```
 For example, create a new image name `moodlenet` with tag `3`:
-```console
-$ docker build -t moodlenet:3 .
+```shell
+docker build -t moodlenet:3 .
 ```
 
 [See here](https://docs.docker.com/engine/reference/commandline/build/) for more information about building a Docker image.
@@ -34,21 +34,21 @@ $ docker build -t moodlenet:3 .
 4. If the build of Docker image is done in the machine which will host MoodleNet, it is not necessary to push the image into Docker registry. But in the case that Docker image is built in a different machine with the one will host the site, Docker image must be pushed into Docker hub registry and will be pulled by the one that will host the site.
 
 5. To push the Docker image into [Docker hub registry](http://hub.docker.com/), firstly, rename the image using `docker tag` command to include Docker hub username (registration is required).
-```console
-$ docker tag ORIGINAL_IMAGE_NAME USERNAME/NEW_IMAGE_NAME
+```shell
+docker tag ORIGINAL_IMAGE_NAME USERNAME/NEW_IMAGE_NAME
 ```
 For example, the image name that was built locally was `moodlenet:3` and to push it into Docker hub of username `ponlawatw`:
-```console
-$ docker tag moodlenet:3 ponlawatw/moodlenet:3
+```shell
+docker tag moodlenet:3 ponlawatw/moodlenet:3
 ```
 
 6. Use `docker push` command to push the image into the registry
-```console
-$ docker push USERNAME/IMAGE_NAME
+```shell
+docker push USERNAME/IMAGE_NAME
 ```
 For exmaple:
-```console
-$ docker push ponalwatw/moodlenet:3
+```shell
+docker push ponalwatw/moodlenet:3
 ```
 
 ---

@@ -7,3 +7,9 @@
 6. [Setup Mail SMTP](./5-smtp.md)
 
 ---
+
+## Others
+
+- [Directly edit accounts in Database](./edit-accounts.md)
+
+---

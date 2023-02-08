@@ -5,8 +5,8 @@ To set up reverse proxy from external connection to MoodleNet container, firstly
 > ※ These steps might need to be superuser. Use command `$ su` to switch to super user, or start every command with `sudo`.
 
 1. Navigate to nginx available sites directory
-```console
-$ cd /etc/nginx/sites-available
+```shell
+cd /etc/nginx/sites-available
 ```
 
 2. Create a new file with any name (e.g. `moodlenet`), with the following content
@@ -28,23 +28,23 @@ server {
 by replacing `DOMAIN_NAME` with the domain name without `http://` nor `https://`. And to make sure that URL after `proxy_pass` is going to port binded by MoodleNet container.
 
 3. Navigate to nginx enabled sites directory
-```console
-$ cd /etc/nginx/sites-enabled
+```shell
+cd /etc/nginx/sites-enabled
 ```
 
 4. Create symbolic link from `sites-available` directory to `sites-enabled` directory by providing the absolute path:
-```console
-$ ln -s /etc/nginx/sites-available/FILE_NAME /etc/nginx/sites-enabled/FILE_NAME
+```shell
+ln -s /etc/nginx/sites-available/FILE_NAME /etc/nginx/sites-enabled/FILE_NAME
 ```
 
 5. Test configuration file:
-```console
-$ nginx -t
+```shell
+nginx -t
 ```
 
 6. If returned message is "test is successful", then reload the config.
-```console
-$ nginx -s reload
+```shell
+nginx -s reload
 ```
 
 7. Try access the domain via browser.

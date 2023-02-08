@@ -11,21 +11,21 @@ Before starting, it is required to have SMTP credentials which can be get from A
 ---
 
 1. Access ArangoShell through Docker:
-```console
-$ docker exec -it mn3_arangodb arangosh
+```shell
+docker exec -it mn3_arangodb arangosh
 ```
 
 2. If prompted for password, leave empty and press enter.
 
 3. Switch database to `at__moodlenet__email-service`.
-```console
-> db._useDatabase('at__moodlenet__email-service')
+```js
+db._useDatabase('at__moodlenet__email-service')
 ```
 
 4. Update entry by using the following command:
 
-```console
-> db._update(db._collection('Moodlenet_simple_key_value_store').firstExample('_key', 'mailerCfg::'), { value: { defaultFrom: 'SENDER_ADDRESS', defaultReplyTo: 'SENDER_ADDRESS' } })
+```js
+db._update(db._collection('Moodlenet_simple_key_value_store').firstExample('_key', 'mailerCfg::'), { value: { defaultFrom: 'SENDER_ADDRESS', defaultReplyTo: 'SENDER_ADDRESS' } })
 ```
 by replacing `SENDER_ADDRESS` in the command to be the sender address (e.g. noreply@domain).
 
@@ -77,8 +77,8 @@ Final configuration json file should look like this:
 ---
 
 If SMTP configuration is not successful and emails are not received, MoodleNet should log the error messages which can be seen by using the command:
-```console
-$ docker logs mn3_core
+```shell
+docker logs mn3_core
 ```
 
 ---
